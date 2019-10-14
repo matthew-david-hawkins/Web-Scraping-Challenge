@@ -5,13 +5,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Hot Finds</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  
+  <title>Mars - Planet</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
   <style>
     body  {
       background-image: url('{{latest_scrape.featured_image}}');
-
+      background-color: rgba(255, 255, 255, 0.4);
+      background-blend-mode: lighten;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
     }
     </style>
 
@@ -20,18 +26,18 @@
 <body onload="typeWriter()" class='bg'>
   <div class="container">
 
-    <div class="jumbotron">
+    <div class="jumbotron" style='background: none'>
         <h1 class="display-4, text-center">Mars</h1>
         <p class="lead, text-center" id="demo"></p>
         <hr class="my-4">
         <p class = "text-center">Get the Latest News and Images from Mars</p>
         <p class="lead text-center">
-          <a class="btn btn-primary btn-lg" href="#" role="button">Reload Now</a>
+          <a class="btn btn-primary btn-lg" href="/scrape" role="button">Reload Now</a>
         </p>
 
         <script>
             var i = 0;
-            var txt = 'Are We There Yet?'
+            var txt = 'A Planetary Overview'
             var speed = 100;
             function typeWriter() {
             if (i < txt.length) {
@@ -43,21 +49,68 @@
             </script>
       </div>
     
-    <div class="col-12">
-        <h3>{{latest_scrape.news.headline}}</h3>
-        <p>{{latest_scrape.news.date}} : {{latest_scrape.news.summary}}</p>
+    <div class="row">
+        <div class="col-12">
+            <h3>{{latest_scrape.news.headline}}</h3>
+            <p>{{latest_scrape.news.date}} : {{latest_scrape.news.summary}}</p>
+    
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h3><br>Latest Martian Weather Report</h3>
+            <p>{{latest_scrape.mars_weather}}</p>
+    
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            <h3><br>Mars vs Earth</h3>
+            {{latest_scrape.mars_facts.replace("dataframe", "table").replace("thead", "thead class='thead-dark'") | safe}}
+        </div>
+    </div>
+
+
+    <div class="row">    
+      <div class="col-12">
+        <h3 class = "text-center"><br>Mars Hemispheres</h3>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <h6 class="text-center">{{latest_scrape.hemispheres[0].title}}</h6>
+            <p><img src="{{latest_scrape.hemispheres[0].img_url}}" class="img-fluid" alt="Mars Hemisphere 1"></p>
+        </div>
+  
+        <div class="col-6">
+            <h6 class = "text-center">{{latest_scrape.hemispheres[1].title}}</h6>
+            <p><img src="{{latest_scrape.hemispheres[1].img_url}}" class="img-fluid" alt="Mars Hemisphere 2"></p>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <h6 class="text-center">{{latest_scrape.hemispheres[2].title}}</h6>
+            <p><img src="{{latest_scrape.hemispheres[2].img_url}}" class="img-fluid" alt="Mars Hemisphere 3"></p>
+
+        </div>
+  
+        <div class="col-6">
+            <h6 class = "text-center">{{latest_scrape.hemispheres[3].title}}</h6>
+            <p><img src="{{latest_scrape.hemispheres[3].img_url}}" class="img-fluid" alt="Mars Hemisphere 4"></p>
+
+        </div>
 
     </div>
 
-    <div class="col-12">
-        <h3>Latest Weather Martian Weather Report</h3>
-        <p>{{latest_scrape.mars_weather}}</p>
 
-    </div>
 
-    <div class="col-12">
-        {{latest_scrape.mars_facts | safe}}
-    </div>
+    
 
   </div>
 </body>
