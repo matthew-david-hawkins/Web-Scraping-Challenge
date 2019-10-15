@@ -8,22 +8,34 @@ app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/marsDB"
 mongo = PyMongo(app)
 
+# The home route will display information from the scrape with the featured image as the background
 @app.route("/")
 def index():
+
+    # Finds the only document in the collection
     latest_scrape = mongo.db.webpage.find_one()
-    print(latest_scrape['news'])
-    print(latest_scrape['featured_image'])
-    print(latest_scrape['mars_weather'])
-    #return render_template("index.html", listings=latest_scrape['news'])
+
+    # Render the template with the latest scraped data
     return render_template("index.html", latest_scrape = latest_scrape)
 
 
+# The /scrape route will call the scrape function, add the results of the scrape to the database, and redirect to the home page
 @app.route("/scrape")
 def scraper():
+    
+    # Define the collection to use
     collection = mongo.db.webpage
+    
+    # Get dictionary of scrape results
     webpage_data = scrape_mars.scrape()
+
+    # Print feedback
     print("\n\n\n SCRAPE COMPLETE \n\n\n")
+    
+    # Insert the scrape results into the database
     collection.update({}, webpage_data, upsert=True)
+
+    # Redirect to home page
     return redirect("/", code=302)
 
 
