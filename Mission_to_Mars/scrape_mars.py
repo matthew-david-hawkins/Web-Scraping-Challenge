@@ -9,8 +9,8 @@ import pandas as pd
 # Define a function the visits a webpage and returns a beautful soup
 def get_soup(url):
     
-    #executable_path = {'chromedriver.exe': '/usr/local/bin/chromedriver'}
-    browser = Browser('chrome', headless=True)
+    executable_path = {'executable_path': 'chromedriver.exe'}
+    browser = Browser('chrome', **executable_path, headless=True)
     
     # Visit with selenium
     browser.visit(url)
