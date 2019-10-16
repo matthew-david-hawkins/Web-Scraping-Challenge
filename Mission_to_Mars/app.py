@@ -12,8 +12,10 @@ mongo = PyMongo(app)
 @app.route("/")
 def index():
 
-    # Finds the only document in the collection
-    latest_scrape = mongo.db.webpage.find_one()
+    # Find last document in the collection
+    doc_no = mongo.db.webpage.estimated_document_count()-1
+
+    latest_scrape = mongo.db.webpage.find({})[doc_no]
 
     # Render the template with the latest scraped data
     return render_template("index.html", latest_scrape = latest_scrape)
@@ -33,7 +35,7 @@ def scraper():
     print("\n\n\n SCRAPE COMPLETE \n\n\n")
     
     # Insert the scrape results into the database
-    collection.update({}, webpage_data, upsert=True)
+    collection.insert_one(webpage_data)
 
     # Redirect to home page
     return redirect("/", code=302)
